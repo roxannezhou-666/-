@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { TYPES, genId, saveLog, deleteLog, getDayLogs, formatDate, getWeekday } from '../data'
+import { TYPES, genId, saveLog, deleteLog, getDayLogs, formatDate, getWeekday, getSubtypes, addSubtype } from '../data'
 
 // ---- 各类型空记录模板 ----
 function emptyLog(type) {
@@ -10,21 +10,56 @@ function emptyLog(type) {
   return base
 }
 
+// ---- 子类型选择器（含新增）----
+function SubtypeSelector({ typeId, value, onChange }) {
+  const t = TYPES[typeId]
+  const [adding, setAdding] = useState(false)
+  const [inputVal, setInputVal] = useState('')
+  const subtypes = getSubtypes(typeId)
+
+  function handleAdd() {
+    const name = inputVal.trim()
+    if (!name) return
+    addSubtype(typeId, name)
+    onChange(name)
+    setInputVal('')
+    setAdding(false)
+  }
+
+  return (
+    <div className="subtype-toggle">
+      {subtypes.map(s => (
+        <button key={s}
+          className={`subtype-btn ${value === s ? 'active' : ''}`}
+          style={value === s ? { background: t.color, color: '#fff', borderColor: t.color } : {}}
+          onClick={() => onChange(s)}>{s}</button>
+      ))}
+      {adding ? (
+        <span className="subtype-add-input">
+          <input
+            autoFocus
+            placeholder="输入名称"
+            value={inputVal}
+            onChange={e => setInputVal(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter') handleAdd(); if (e.key === 'Escape') setAdding(false) }}
+          />
+          <button className="subtype-btn" style={{ background: t.color, color: '#fff', borderColor: t.color }} onClick={handleAdd}>确定</button>
+          <button className="subtype-btn" onClick={() => setAdding(false)}>取消</button>
+        </span>
+      ) : (
+        <button className="subtype-btn subtype-add-btn" onClick={() => setAdding(true)}>＋</button>
+      )}
+    </div>
+  )
+}
+
 // ---- 技能表单 ----
 function SkillForm({ log, onChange }) {
-  const t = TYPES.skill
   return (
     <>
       <div className="form-group">
         <label>类型</label>
-        <div className="subtype-toggle">
-          {t.subtypes.map(s => (
-            <button key={s}
-              className={`subtype-btn ${log.subtype === s ? 'active' : ''}`}
-              style={log.subtype === s ? { background: t.color, color: '#fff', borderColor: t.color } : {}}
-              onClick={() => onChange({ ...log, subtype: s })}>{s}</button>
-          ))}
-        </div>
+        <SubtypeSelector typeId="skill" value={log.subtype} onChange={s => onChange({ ...log, subtype: s })} />
       </div>
       <div className="form-group">
         <label>今日投入时长（小时）</label>
@@ -43,20 +78,12 @@ function SkillForm({ log, onChange }) {
 
 // ---- 积累表单 ----
 function AccumulateForm({ log, onChange }) {
-  const t = TYPES.accumulate
   const titleLabel = log.subtype === '书籍' ? '书名' : log.subtype === '电影' ? '电影名' : '纪录片名'
   return (
     <>
       <div className="form-group">
         <label>类型</label>
-        <div className="subtype-toggle">
-          {t.subtypes.map(s => (
-            <button key={s}
-              className={`subtype-btn ${log.subtype === s ? 'active' : ''}`}
-              style={log.subtype === s ? { background: t.color, color: '#fff', borderColor: t.color } : {}}
-              onClick={() => onChange({ ...log, subtype: s })}>{s}</button>
-          ))}
-        </div>
+        <SubtypeSelector typeId="accumulate" value={log.subtype} onChange={s => onChange({ ...log, subtype: s })} />
       </div>
       <div className="form-group">
         <label>{titleLabel}</label>
@@ -79,19 +106,11 @@ function AccumulateForm({ log, onChange }) {
 
 // ---- 健康表单 ----
 function HealthForm({ log, onChange }) {
-  const t = TYPES.health
   return (
     <>
       <div className="form-group">
         <label>类型</label>
-        <div className="subtype-toggle">
-          {t.subtypes.map(s => (
-            <button key={s}
-              className={`subtype-btn ${log.subtype === s ? 'active' : ''}`}
-              style={log.subtype === s ? { background: t.color, color: '#fff', borderColor: t.color } : {}}
-              onClick={() => onChange({ ...log, subtype: s })}>{s}</button>
-          ))}
-        </div>
+        <SubtypeSelector typeId="health" value={log.subtype} onChange={s => onChange({ ...log, subtype: s })} />
       </div>
       {log.subtype === '饮食' ? (
         <div className="form-group">

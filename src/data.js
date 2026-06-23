@@ -72,6 +72,29 @@ export function deleteLog(dateStr, logId) {
   saveAll(all)
 }
 
+// ---- 自定义子类型存取 ----
+const SUBTYPES_KEY = 'daily_tracker_subtypes_v1'
+
+export function loadSubtypes() {
+  try {
+    const v = localStorage.getItem(SUBTYPES_KEY)
+    return v ? JSON.parse(v) : {}
+  } catch { return {} }
+}
+
+export function addSubtype(typeId, name) {
+  const all = loadSubtypes()
+  if (!all[typeId]) all[typeId] = []
+  if (!all[typeId].includes(name)) all[typeId].push(name)
+  localStorage.setItem(SUBTYPES_KEY, JSON.stringify(all))
+}
+
+export function getSubtypes(typeId) {
+  const defaults = TYPES[typeId]?.subtypes || []
+  const custom = loadSubtypes()[typeId] || []
+  return [...new Set([...defaults, ...custom])]
+}
+
 // ---- 工具函数 ----
 export function genId() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 5)

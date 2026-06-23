@@ -355,6 +355,30 @@ textarea { resize: vertical; }
   transition: all .15s;
 }
 
+/* ---- 子类型新增输入 ---- */
+.subtype-add-btn {
+  color: #6366f1;
+  border-color: #6366f1;
+  background: #eef2ff;
+  font-size: 16px;
+  padding: 4px 12px;
+}
+.subtype-add-input {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.subtype-add-input input {
+  width: 100px;
+  padding: 6px 10px;
+  font-size: 13px;
+  border: 1.5px solid #6366f1;
+  border-radius: 8px;
+  outline: none;
+  background: white;
+}
+
 /* ---- 底部按钮 ---- */
 .modal-footer {
   display: flex;

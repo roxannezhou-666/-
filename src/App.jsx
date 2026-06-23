@@ -40,7 +40,7 @@ export default function App() {
       <header className="app-header">
         <div className="app-header-top">
           <div>
-            <h1 className="app-title">每日记录便签</h1>
+            <h1 className="app-title">每日便签</h1>
             <p className="app-subtitle">{now.getFullYear()}年{now.getMonth() + 1}月</p>
           </div>
           <button className="today-btn" onClick={() => setSelectedDay(todayStr())}>

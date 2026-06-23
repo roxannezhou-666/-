@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import CalendarView from './components/CalendarView'
 import DayModal from './components/LogForm'
+import WorldNews from './components/WorldNews'
 import { todayStr, TYPES, loadAll } from './data'
 import './App.css'
 
@@ -68,6 +69,9 @@ export default function App() {
       <main className="app-main">
         <CalendarView key={refreshKey} onSelectDay={setSelectedDay} />
       </main>
+
+      {/* 看世界 */}
+      <WorldNews />
 
       {/* 当日弹窗 */}
       {selectedDay && (

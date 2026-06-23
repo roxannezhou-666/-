@@ -419,6 +419,95 @@ textarea { resize: vertical; }
 }
 .btn-icon:hover { opacity: 1; }
 
+/* ---- 看世界 ---- */
+.world-news {
+  margin: 0 auto 32px;
+  max-width: 480px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.world-news-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.world-news-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+.world-news-source {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.world-news-loading,
+.world-news-error {
+  padding: 24px 20px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+.world-news-list {
+  list-style: none;
+  padding: 8px 0;
+}
+.world-news-item {
+  border-bottom: 1px solid var(--border);
+}
+.world-news-item:last-child { border-bottom: none; }
+.world-news-link {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 20px;
+  text-decoration: none;
+  transition: background .15s;
+}
+.world-news-link:hover { background: var(--bg); }
+.world-news-item-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.5;
+}
+.world-news-item-meta {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.world-news-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+}
+.world-news-page-btn {
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all .15s;
+}
+.world-news-page-btn:hover:not(:disabled) {
+  border-color: #6366f1;
+  color: #6366f1;
+}
+.world-news-page-btn:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+}
+.world-news-page-num {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
 /* ---- 桌面端 ---- */
 @media (min-width: 480px) {
   .modal-overlay { align-items: center; padding: 24px; }
